@@ -4,6 +4,10 @@
 *.DS_Store
 *.profile
 
+*.jpg
+*.png
+*.gif
+
 .project
 .settings
 .idea
