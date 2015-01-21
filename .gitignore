@@ -1,0 +1,9 @@
+/*Kopie
+/input/nosed
+/node_modules
+*.DS_Store
+*.profile
+
+.project
+.settings
+.idea
