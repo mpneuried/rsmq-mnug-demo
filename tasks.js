@@ -77,7 +77,7 @@ module.exports = {
 	},
 
 	placeNose: function( file, nose, cb ){
-		var _placepath = path.resolve( './recourses/' );
+		var _placepath = path.resolve( './resources/' );
 
 		var sizePlacement = { x: 100, y: 100 };
 		var nosesize = nose.w * 0.5;
