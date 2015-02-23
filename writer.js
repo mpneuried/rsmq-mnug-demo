@@ -1,12 +1,28 @@
-var RSMQueue = require("rsmq");
 var fs = require("fs");
+var async = require("async");
 
 // read the configuration
 var CONFIG = require("./config.json");
 
 // init RSMQ
+var RSMQueue = require("rsmq");
 var rsmq = new RSMQueue( { ns: "mnug" } );
 
+
+// method to send a message to RSMQ
+var fnWriteMessage = function( file, cb ){
+	
+	console.log( "send file", file );
+
+	// define the filepath
+	filepath = CONFIG.inputFolder + file;
+
+	// write a message to RSMQ
+	rsmq.sendMessage( {qname:CONFIG.qname, message:filepath}, cb)
+};
+
+
+// start
 var fnStart = function(){
 
 	// read the files from the input folder
@@ -18,27 +34,23 @@ var fnStart = function(){
 			return;
 		}
 
-		// create a message for each file
-		for( idx = 0; idx < files.length; idx++ ){
-			
-			filepath = CONFIG.inputFolder + files[idx];
+		// call fnWriteMessage for each file
+		async.each( files, fnWriteMessage, function( err, results ){
+			if ( err ) {
+				console.log("send message", err );
+				return;
+			}
+			console.log( files.length + " FILES SEND" );
 
-			// send the file to the queue
-			rsmq.sendMessage( {qname:CONFIG.qname, message:filepath}, function (err) {
-			
-				if ( err ) {
-					console.log("send message", err );
-					return;
-				}
-			
-				console.log("FILE QUEUED", filepath);
-			});
-		}
+			// exit the scripton end
+			process.exit();
+		});
+
 	});
 };
 
 
-// Try to create the queue
+// CREATE Queue
 rsmq.createQueue( {qname: CONFIG.qname}, function( err ){
 
 	// the queue possibily already exists

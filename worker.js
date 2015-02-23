@@ -1,20 +1,20 @@
 var path = require( "path" );
-
-var RSMQWorker = require( "rsmq-worker" );
 var gm = require( "gm" );
 
 // read the configuration
 var CONFIG = require("./config.json");
 
 // create a worker
-var worker = new RSMQWorker( CONFIG.qname, {redisPrefix: "mnug", interval:[0,1], invisibletime:3} );
+var RSMQWorker = require( "rsmq-worker" );
+var worker = new RSMQWorker( CONFIG.qname, {redisPrefix: "mnug", interval:[0,1,1], invisibletime:3} );
 
 
 // listen to messages
 worker.on( "message", function( filepath, next, msgid ){
 	
 	// define the output file
-	var filepathOut = CONFIG.outputFolder + path.basename( filepath );
+	var filename = path.basename( filepath );
+	var filepathOut = CONFIG.outputFolder + filename;
 
 	// read the file
 	try{
@@ -25,12 +25,14 @@ worker.on( "message", function( filepath, next, msgid ){
 		next( err );
 		return;
 	}
+
+	// write the file
 	gmFile.write( filepathOut, function( err ){
 		if(err){
 			next( err );
 			return;
 		}
-		console.log("file written", filepathOut);
+		console.log("file written", filename);
 		next();
 	});
 
