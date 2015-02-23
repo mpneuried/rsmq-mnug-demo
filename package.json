@@ -4,9 +4,9 @@
   "description": "Demo project for the MNUG talk (02/2015)",
   "main": "simple.js",
   "dependencies": {
-    "rsmq-worker": "~0.1.2",
-    "request": "~2.51.0",
-    "gm": "~1.17.0"
+    "rsmq-worker": "0.x",
+    "gm": "1.x",
+    "rsmq": "~0.3.9"
   },
   "devDependencies": {},
   "scripts": {
@@ -21,7 +21,9 @@
     "slides",
     "demo",
     "node",
-    "nodejs"
+    "nodejs",
+    "rsmq",
+    "worker"
   ],
   "author": "mpneuried",
   "license": "MIT",
