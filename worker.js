@@ -35,6 +35,7 @@ worker.on( "message", function( filepath, next, msgid ){
 			return;
 		}
 		console.log("file written", filename);
+		// mark this message as done
 		next();
 	});
 
