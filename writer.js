@@ -11,14 +11,13 @@ var rsmq = new RSMQueue( { ns: "mnug" } );
 
 // method to send a message to RSMQ
 var fnWriteMessage = function( file, cb ){
-	
 	console.log( "send file", file );
 
 	// define the filepath
 	filepath = CONFIG.inputFolder + file;
 
 	// write a message to RSMQ
-	rsmq.sendMessage( {qname:CONFIG.qname, message:filepath}, cb)
+	rsmq.sendMessage( {qname:CONFIG.qname, message:filepath}, cb)	
 };
 
 
@@ -42,7 +41,7 @@ var fnStart = function(){
 			}
 			console.log( files.length + " FILES SEND" );
 
-			// exit the scripton end
+			// exit the script 	on end
 			process.exit();
 		});
 

@@ -6,7 +6,7 @@ var CONFIG = require("./config.json");
 
 // create a worker
 var RSMQWorker = require( "rsmq-worker" );
-var worker = new RSMQWorker( CONFIG.qname, {redisPrefix: "mnug", interval:[0,1,1], invisibletime:3} );
+var worker = new RSMQWorker( CONFIG.qname, {redisPrefix:"mnug", interval:[0,1,1], invisibletime:3} );
 
 
 // listen to messages
@@ -16,10 +16,12 @@ worker.on( "message", function( filepath, next, msgid ){
 	var filename = path.basename( filepath );
 	var filepathOut = CONFIG.outputFolder + filename;
 
-	// read the file
 	try{
+		// read the file
 		var gmFile = gm( filepath );
+		// convert the image to a grayscale image
 		gmFile.type( "Grayscale" );
+
 	}catch(err){
 		// possibly not a image
 		next( err );
@@ -43,7 +45,7 @@ worker.on('error', function( err, msg ){
   console.log( "ERROR", err, msg.id, msg.rc );
 });
 worker.on('exceeded', function( msg ){
-  console.log( "EXCEEDED", msg.id );
+  console.log( "EXCEEDED", msg );
 });
 worker.on('timeout', function( msg ){
   console.log( "TIMEOUT", msg.id );
