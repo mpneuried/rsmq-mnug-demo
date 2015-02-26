@@ -20,7 +20,7 @@ rsmq.createQueue( {qname: CONFIG.qname}, function( err ){
 			console.log("get queue attributes", err);
 			return;
 		}
-		console.log("Message-count: ", meta.msgs);
+		console.log("Message-count: ", meta.msgs, "\nMessage-hidden: ", meta.hiddenmsgs );
 
 		// exit the script on end
 		rsmq.quit();
